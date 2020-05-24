@@ -1,0 +1,41 @@
+*
+{
+	padding:10px;
+	margin:10px;
+}
+
+body
+{
+	background-color: #21243d;
+	font-family: verdana;
+	color:white;
+}
+
+button
+{
+	background-color: #ff7c7c;
+  	border: none;
+  	color: white;
+  	text-align: center;
+  	text-decoration: none;
+ 	display: inline-block;
+  	font-size: 16px;
+}
+input[type=text] 
+{
+	height: 10px;
+	color: white;
+	background-color: #21243d;
+  	border: none;
+ 	border: 2px solid #ff7c7c;
+ 	border-radius: 15px;
+}
+select 
+{
+  width: 20%;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+}
