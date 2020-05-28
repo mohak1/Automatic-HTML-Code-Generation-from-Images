@@ -1,0 +1,29 @@
+item {
+  id: 1
+  display_name: "Button" 
+}
+
+item {
+  id: 2
+  display_name: "Label" 
+}
+
+item {
+  id: 3
+  display_name: "CheckBox" 
+}
+
+item {
+  id: 4
+  display_name: "RadioButton" 
+}
+
+item {
+  id: 5
+  display_name: "Image" 
+}
+
+item {
+  id: 6
+  display_name: "TextBox" 
+}

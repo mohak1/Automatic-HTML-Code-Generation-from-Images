@@ -1,0 +1,2 @@
+The trained model used in this project(frozen_inference_graph_816.pb) can be downloaded from the following link:
+https://www.dropbox.com/sh/r7m3p0qikumtjuc/AABKP8kGBUzE8-pJo-WqGWD9a?dl=0
