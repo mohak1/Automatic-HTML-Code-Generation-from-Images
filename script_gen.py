@@ -26,6 +26,7 @@ def button_code():
 
 
 def image_code():
+    #specify the path where the dummy image is persent, if not in the same dir
     l = '<img src=\"dummy_image.png\" height=50px alt=\"Image\"> '
     return l
 
@@ -36,7 +37,7 @@ def break_code():
 
 def generate_html():
     #path for storing the html file
-    path='/home/mohak/Music/implementation/'
+    path='PATH_TO_DIR_FOR_STORING_HTML_FILE/'
     #define the opening tags of html 
     html=open(path+'generated_code.html','w')
     html.write('<HTML>\n<HEAD>\n')
@@ -73,7 +74,8 @@ def generate_html():
     html.write('\n</BODY>\n</HTML>')
     
     #html script is generated
-    #destroy the temp file now 
+    #destroy the temp file now
+    #change the path to temp file, if not in the same dir
     os.remove(path+'temp.txt')
 
 #generate_html()
