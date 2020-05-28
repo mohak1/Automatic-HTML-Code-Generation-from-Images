@@ -16,8 +16,9 @@ If you have a webpage design in mind but don't want to code the basic stuff? Wel
 
 1. [Installation Guide](##Installation-Guide)
 2. [Usage Instruction](#Usage-Instruction)
-3. [Contributing to this project](#Contributing)
-4. [License](#License)
+3. [Demo](#Demo)
+4. [Contributing to this project](#Contributing)
+5. [License](#License)
 
 ## Installation Guide
 
@@ -64,6 +65,12 @@ Draw the design using the symbols on a plain white (preferably A4 size) sheet an
 python main.py
 ```
 Depending on the processing hardware, it might take some time to execute. The preprocessed image with detected elements is displayed to show which elements have been identified. This image can be closed by pressing any key after which, the webpage would automatically open in a new browser window. Generated HTML code can be found in _generated_code.html_  file in the specified directory.
+
+## Demo
+
+Click on the image to watch the demo video on YouTube.
+
+[![Watch the video](/images_for_README/demo.png)](https://youtu.be/UQYS5Qtyd98)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please perform the appropriate testing of proposed additions before creating a pull request.
