@@ -17,10 +17,7 @@ def preprocessing(path_to_image):
 		height = 1000
 		width = 950
 		black_image = np.zeros((height,width,3), np.uint8)
-		#black_image[:] = (255,255,255)
-		#img = Image.fromarray(black_image)
 		black_image[:, 0:width] = (0,0,0)
-
 		x_offset = int((width - img.shape[1])/2)
 		y_offset = int((height - img.shape[0])/2)		
 		black_image[y_offset:y_offset+img.shape[0], x_offset:x_offset+img.shape[1]] = img
@@ -42,21 +39,10 @@ def preprocessing(path_to_image):
 	#canny edge detection
 	edges = cv2.Canny(img_dilation,100,101)
 
-	#cv2.imshow('output',edges)
-	#cv2.waitKey(0)
-	
-	#display the images
-	#cv2.imshow('dialtion',img_dilation)
-	#cv2.waitKey()
-	#cv2.destroyAllWindows()
-	#cv2.imshow('edges',edges)
-	#cv2.waitKey()
-	#cv2.destroyAllWindows()
-	#cv2.imshow('thresh',thresh)
-	#cv2.waitKey()
-	#cv2.destroyAllWindows()
-
 	#create a temporary processed file
-	path='/home/mohak/Music/implementation/temp.jpg'
+	#give a path (preferably in the same directory) for storing the temp file.
+	#this is the file generated after preprocessing and is deleted automatically 
+	#after detectoin of objects from it.
+	path='PATH_TO_SAVE_TEMP_IMAGE/temp.jpg'
 	cv2.imwrite(path,edges)
 	return path
