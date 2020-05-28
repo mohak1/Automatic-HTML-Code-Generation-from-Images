@@ -17,6 +17,9 @@ from PIL import Image
 sys.path.append("PATH_TO_TENSORFLOW_MODELS_DIR/models/research/")
 from object_detection.utils import ops as utils_ops
 from object_detection.utils import label_map_util
+#GO TO models/research/object_detection/utils/ and replace the visualization_utils.py file 
+#with the one included in this repository.
+#this is a necessary step for running the return_coordinates function
 from object_detection.utils import visualization_utils as vis_util
 #print(vis_util.__file__)
 
