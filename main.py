@@ -13,24 +13,30 @@ from io import StringIO
 from matplotlib import pyplot as plt
 from PIL import Image
 
-# This is needed since the notebook is stored in the object_detection folder.
-sys.path.append("/home/mohak/Documents/models-master/research/")
+# Give the path to the cloned/downloaded tensorflow's 'models' directory
+sys.path.append("PATH_TO_TENSORFLOW_MODELS_DIR/models/research/")
 from object_detection.utils import ops as utils_ops
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 #print(vis_util.__file__)
 
-sys.path.append('/home/mohak/Music/implementation/')
+#path to the dir where script_gen.py and preprocess.py files are stored
+sys.path.append('PATH_TO_DIR/')
 from script_gen import generate_html
 from preprocess import preprocessing
 
 import webbrowser
 
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
-PATH_TO_FROZEN_GRAPH = '/home/mohak/Music/implementation/model_files/frozen_inference_graph_816.pb'
+#link for downloading the trained model:
+#https://www.dropbox.com/sh/r7m3p0qikumtjuc/AABKP8kGBUzE8-pJo-WqGWD9a?dl=0
+#also present in the model_files/how_to_download_trained_model.txt file 
+#place the 'frozen_inference_graph_816.pb' file in the model_file dir after downloading
+PATH_TO_FROZEN_GRAPH = 'PATH_TO_model_files_DIR/frozen_inference_graph_816.pb'
 
-#PATH_TO_FROZEN_GRAPH = '/home/mohak/Desktop/sem8/604/pb/frozen_inference_graph.pb'
-PATH_TO_LABELS = '/home/mohak/Music/implementation/model_files/labels.pbtxt'
+#give the path to label.pbtxt file
+#it can be found in model_files directory
+PATH_TO_LABELS = 'PATH_TO_model_files_DIR/labels.pbtxt'
 
 detection_graph = tf.Graph()
 with detection_graph.as_default():
@@ -170,10 +176,11 @@ def sort_list_x(line):
   return new_list 
 
 
-#mehtod for writing temp file
+#mehtod for writing temp file which contains detected html element desctiption
 def write_temp(line):
-  #define a path for the temp file
-  path='/home/mohak/Music/implementation/'
+  #define a path to store the detected element desctiption text file
+  #this file enables the generate_html function to create html code  
+  path='PATH_TO_DIR_CONTAINING_temp.txt/_FILE'
   temp=open(path+'temp.txt','w')
   #convert multidim list to one dim
   flat = [x for sublist in line for x in sublist]
@@ -189,11 +196,6 @@ def write_temp(line):
       f.append(k)
       k=[]
 
-  # print('line is\n', line)
-  # print('\nflat is\n', flat)
-  # print('\n k is \n', k)
-  #print('\n f is \n', f)
-  #print('end of line')
   flat=f
   prev=flat[0][2]
   for i in range(len(flat)):
@@ -297,14 +299,15 @@ def processImage(image):
     path='/home/mohak/Music/implementation/'
     os.remove(path+'temp.jpg')
     #run the generated html code in browser as a webpage
-    file_path = '/home/mohak/Music/implementation/generated_code.html'
+    #give the complete path to the generated html file
+    file_path = 'PATH_TO_DIR/generated_code.html'
     new = 2
     webbrowser.open(file_path,new=new)
 
 
 #For running on local testImages
-#path of the image
-path='/home/mohak/Music/implementation/new_test_imgs/test_imgs_4.jpg'
+#path of the image using which the html code is to be generated
+path='COMPLETE_PATH_TO_INPUT_IMAGE'
 
 processed_image=preprocessing(path)
 processImage(processed_image)
