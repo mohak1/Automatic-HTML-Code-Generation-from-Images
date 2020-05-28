@@ -42,6 +42,7 @@ def generate_html():
     html=open(path+'generated_code.html','w')
     html.write('<HTML>\n<HEAD>\n')
     #link the css file
+    #specify the full path in href if css not present in the same dir
     html.write('<link rel="stylesheet" type="text/css" href="stylesheet.css">\n')
     html.write('<TITLE>Generated HTML Code</TITLE>\n')
     html.write('</HEAD>\n<BODY>\n')
