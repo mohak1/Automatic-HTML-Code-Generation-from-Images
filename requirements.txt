@@ -3,4 +3,4 @@ six==1.14.0
 opencv-python==4.2.0.32
 matplotlib
 Pillow
-tensorflow==1.15.0
+tensorflow==1.15
