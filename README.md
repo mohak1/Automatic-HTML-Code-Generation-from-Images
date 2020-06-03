@@ -38,6 +38,18 @@ If you have a webpage design in mind but don't want to code the basic stuff? Wel
    ```bash
    pip install -r requirements.txt
    ```
+   **INSTALL TENSORFLOW 1.15.0**
+   
+   (not listed in requirements.txt because there is no pip package for tf 1.15)
+   
+   Download a .whl file from the following link (considering your python version and operating system):
+   https://pypi.org/project/tensorflow/1.15.0/#files
+   
+   Install the .whl file using the the following command (update your pip before proceeding):
+   ```bash
+   pip install PATH_TO_FILE/name_of_file.whl
+   ```
+   
 4. Replace the visualization_utils.py 
 
    Go to the directory where you have downloaded the Official Tensorflow models repository. Find the 'utils' folder inside object_detection directory by navigating:
