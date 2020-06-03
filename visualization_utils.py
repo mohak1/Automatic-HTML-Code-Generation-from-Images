@@ -19,10 +19,6 @@ These functions often receive an image, perform some visualization on the image.
 The functions do not return a value, instead they modify the image itself.
 
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 import abc
 import collections
 # Set headless-friendly backend.
@@ -34,12 +30,11 @@ import PIL.ImageColor as ImageColor
 import PIL.ImageDraw as ImageDraw
 import PIL.ImageFont as ImageFont
 import six
-from six.moves import range
-from six.moves import zip
 import tensorflow as tf
 
 from object_detection.core import standard_fields as fields
 from object_detection.utils import shape_utils
+
 
 _TITLE_LEFT_MARGIN = 10
 _TITLE_TOP_MARGIN = 10
@@ -84,7 +79,7 @@ def _get_multiplier_for_color_randomness():
   colors = [(p * i) % len(STANDARD_COLORS) for i in range(20)]
   """
   num_colors = len(STANDARD_COLORS)
-  prime_candidates = [2, 3, 5, 7, 11]
+  prime_candidates = [5, 7, 11, 13, 17]
 
   # Remove all prime candidates that divide the number of colors.
   prime_candidates = [p for p in prime_candidates if num_colors % p]
@@ -197,15 +192,20 @@ def draw_bounding_box_on_image(image,
   """
   draw = ImageDraw.Draw(image)
   im_width, im_height = image.size
-  if use_normalized_coordinates:
+  if use_normalized_coordinates:    
     (left, right, top, bottom) = (xmin * im_width, xmax * im_width,
                                   ymin * im_height, ymax * im_height)
+    
   else:
     (left, right, top, bottom) = (xmin, xmax, ymin, ymax)
-  draw.line([(left, top), (left, bottom), (right, bottom),
+    
+    #dimens = (left, right, top, bottom)
+  print('str',display_str_list[0][0:3])
+  if(display_str_list[0][0:3] != 'N/A'):
+    draw.line([(left, top), (left, bottom), (right, bottom),
              (right, top), (left, top)], width=thickness, fill=color)
   try:
-    font = ImageFont.truetype('arial.ttf', 24)
+    font = ImageFont.truetype('/home/mohak/Desktop/ubuntu/minor_files/arial.ttf', 25)
   except IOError:
     font = ImageFont.load_default()
 
@@ -222,18 +222,21 @@ def draw_bounding_box_on_image(image,
     text_bottom = bottom + total_display_str_height
   # Reverse list and print from bottom to top.
   for display_str in display_str_list[::-1]:
-    text_width, text_height = font.getsize(display_str)
-    margin = np.ceil(0.05 * text_height)
-    draw.rectangle(
+    #print('string is ',display_str[0:3])
+    if display_str[0:3] != 'N/A':
+        print(display_str)
+        text_width, text_height = font.getsize(display_str)
+        margin = np.ceil(0.05 * text_height)
+        draw.rectangle(
         [(left, text_bottom - text_height - 2 * margin), (left + text_width,
                                                           text_bottom)],
         fill=color)
-    draw.text(
+        draw.text(
         (left + margin, text_bottom - text_height - margin),
         display_str,
         fill='black',
         font=font)
-    text_bottom -= text_height - 2 * margin
+        text_bottom -= text_height - 2 * margin
 
 
 def draw_bounding_boxes_on_image_array(image,
@@ -293,7 +296,8 @@ def draw_bounding_boxes_on_image(image,
     raise ValueError('Input must be of size [N, 4]')
   for i in range(boxes_shape[0]):
     display_str_list = ()
-    if display_str_list_list:
+    print('str_list',display_str_list_list)
+    if display_str_list_list and display_str_list_list[0:3]!='N/A':
       display_str_list = display_str_list_list[i]
     draw_bounding_box_on_image(image, boxes[i, 0], boxes[i, 1], boxes[i, 2],
                                boxes[i, 3], color, thickness, display_str_list)
@@ -536,7 +540,7 @@ def draw_side_by_side_evaluation_image(eval_dict,
   # Add the batch dimension if the eval_dict is for single example.
   if len(eval_dict[detection_fields.detection_classes].shape) == 1:
     for key in eval_dict:
-      if key != input_data_fields.original_image and key != input_data_fields.image_additional_channels:
+      if key != input_data_fields.original_image:
         eval_dict[key] = tf.expand_dims(eval_dict[key], 0)
 
   for indx in range(eval_dict[input_data_fields.original_image].shape[0]):
@@ -600,42 +604,8 @@ def draw_side_by_side_evaluation_image(eval_dict,
         max_boxes_to_draw=None,
         min_score_thresh=0.0,
         use_normalized_coordinates=use_normalized_coordinates)
-    images_to_visualize = tf.concat([images_with_detections,
-                                     images_with_groundtruth], axis=2)
-
-    if input_data_fields.image_additional_channels in eval_dict:
-      images_with_additional_channels_groundtruth = (
-          draw_bounding_boxes_on_image_tensors(
-              tf.expand_dims(
-                  eval_dict[input_data_fields.image_additional_channels][indx],
-                  axis=0),
-              tf.expand_dims(
-                  eval_dict[input_data_fields.groundtruth_boxes][indx], axis=0),
-              tf.expand_dims(
-                  eval_dict[input_data_fields.groundtruth_classes][indx],
-                  axis=0),
-              tf.expand_dims(
-                  tf.ones_like(
-                      eval_dict[input_data_fields.groundtruth_classes][indx],
-                      dtype=tf.float32),
-                  axis=0),
-              category_index,
-              original_image_spatial_shape=tf.expand_dims(
-                  eval_dict[input_data_fields.original_image_spatial_shape]
-                  [indx],
-                  axis=0),
-              true_image_shape=tf.expand_dims(
-                  eval_dict[input_data_fields.true_image_shape][indx], axis=0),
-              instance_masks=groundtruth_instance_masks,
-              keypoints=None,
-              max_boxes_to_draw=None,
-              min_score_thresh=0.0,
-              use_normalized_coordinates=use_normalized_coordinates))
-      images_to_visualize = tf.concat(
-          [images_to_visualize, images_with_additional_channels_groundtruth],
-          axis=2)
-    images_with_detections_list.append(images_to_visualize)
-
+    images_with_detections_list.append(
+        tf.concat([images_with_detections, images_with_groundtruth], axis=2))
   return images_with_detections_list
 
 
@@ -811,9 +781,10 @@ def visualize_boxes_and_labels_on_image_array(
         display_str = ''
         if not skip_labels:
           if not agnostic_mode:
-            if classes[i] in six.viewkeys(category_index):
+            if classes[i] in category_index.keys():
               class_name = category_index[classes[i]]['name']
             else:
+              pass
               class_name = 'N/A'
             display_str = str(class_name)
         if not skip_scores:
@@ -832,7 +803,7 @@ def visualize_boxes_and_labels_on_image_array(
         elif track_ids is not None:
           prime_multipler = _get_multiplier_for_color_randomness()
           box_to_color_map[box] = STANDARD_COLORS[
-              track_ids[i]% len(STANDARD_COLORS)]
+              (prime_multipler * track_ids[i]) % len(STANDARD_COLORS)]
         else:
           box_to_color_map[box] = STANDARD_COLORS[
               classes[i] % len(STANDARD_COLORS)]
@@ -840,6 +811,8 @@ def visualize_boxes_and_labels_on_image_array(
   # Draw all boxes onto image.
   for box, color in box_to_color_map.items():
     ymin, xmin, ymax, xmax = box
+    
+    
     if instance_masks is not None:
       draw_mask_on_image_array(
           image,
@@ -944,7 +917,7 @@ def return_coordinates(
     ymax = int(ymax*height)
     xmin = int(xmin*width)
     xmax = int(xmax*width)
-    coordinates_list.append([ymin, ymax, xmin, xmax, (box_to_score_map[box]*100)])
+    coordinates_list.append([ymin, ymax, xmin, xmax, box_to_display_str_map[box],(box_to_score_map[box]*100)])
     counter_for = counter_for + 1
 
   return coordinates_list
@@ -1010,7 +983,8 @@ def add_hist_image_summary(values, bins, name):
   tf.summary.image(name, hist_plot)
 
 
-class EvalMetricOpsVisualization(six.with_metaclass(abc.ABCMeta, object)):
+
+class EvalMetricOpsVisualization(object):
   """Abstract base class responsible for visualizations during evaluation.
 
   Currently, summary images are not run during evaluation. One way to produce
@@ -1019,6 +993,7 @@ class EvalMetricOpsVisualization(six.with_metaclass(abc.ABCMeta, object)):
   responsible for accruing images (with overlaid detections and groundtruth)
   and returning a dictionary that can be passed to `eval_metric_ops`.
   """
+  __metaclass__ = abc.ABCMeta
 
   def __init__(self,
                category_index,
