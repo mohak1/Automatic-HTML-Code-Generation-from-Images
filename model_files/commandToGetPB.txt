@@ -1,0 +1,27 @@
+
+python export_inference_graph.py \
+    --input_type image_tensor \
+    --pipeline_config_path /home/mohak/Desktop/from_pendrive/minor_files/mobilenet_v1.config \
+    --trained_checkpoint_prefix /home/mohak/Desktop/from_pendrive/minor_files/mobilenet/model.ckpt-443 \
+    --output_directory /home/mohak/Desktop/from_pendrive/minor_files/mobilenet/pb/
+
+
+
+
+python export_inference_graph.py \
+    --input_type image_tensor \
+    --pipeline_config_path /home/mohak/Desktop/from_pendrive/minor_files/faster_rcnn_resnet50.config \
+    --trained_checkpoint_prefix /home/mohak/Desktop/from_pendrive/minor_files/resnet/model.ckpt-800 \
+    --output_directory /home/mohak/Desktop/from_pendrive/minor_files/resnet/pb/
+
+python export_inference_graph.py \
+    --input_type image_tensor \
+    --pipeline_config_path /home/mohak/Desktop/from_pendrive/minor_files/faster_rcnn_resnet50.config \
+    --trained_checkpoint_prefix /home/mohak/Desktop/from_pendrive/minor_files/resnet_2/model.ckpt-1632 \
+    --output_directory /home/mohak/Desktop/from_pendrive/minor_files/resnet_2/pb/
+
+python export_inference_graph.py \
+    --input_type image_tensor \
+    --pipeline_config_path /home/mohak/Desktop/sem8/last_csv_rec/faster_rcnn_resnet50.config \
+    --trained_checkpoint_prefix /home/mohak/Desktop/sem8/last_csv_rec/trained/model.ckpt-147 \
+    --output_directory /home/mohak/Desktop/sem8/last_csv_rec/trained/pb147/
